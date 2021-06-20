@@ -13,6 +13,17 @@ int point::euler_dist(point b) const{
     return int(sqrt((x-b.x)*(x-b.x) + (y-b.y)*(y-b.y)));
 }
 
+void Bords::Dessine_bords(){
+
+    drawRect(0,0,xb,yb,BLACK);
+
+}
+Bords::Bords(int x,int y){
+
+    xb=x;
+    yb=y;
+}
+
 
 int keyboard() {
     Event e;

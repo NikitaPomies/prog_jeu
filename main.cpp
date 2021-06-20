@@ -1,5 +1,7 @@
 
 #include "utils.h"
+#include "perso.h"
+#include "ennemis.h"
 
 
 
@@ -15,90 +17,48 @@ void fillDiamond(point P, int size, Color COL){
     fillPoly(x,y,4,COL);
 }
 
-const point dir[4] = {{1,0},{0,1},{-1,0},{0,-1}};
+bool collision(const Enm_imb& e,const Perso& p){
 
-
-class Bords{
-public:
-    int xb,yb;
-    void Dessine_bords();
-    Bords(int xb,int yb);
-
-
-
-        };
-
-void Bords::Dessine_bords(){
-
-    drawRect(0,0,xb,yb,BLACK);
-
-}
-Bords::Bords(int x,int y){
-
-    xb=x;
-    yb=y;
-}
-
-
-
-class Perso{
-public:
-    int  vitesse;
-    point c;
-    int rayon;
-    Perso(int xc,int yc, int rayon, int v);
-    void Dessine_perso(Color col);
-    void bouge(int d, const Bords& b);
-
-};
-
-void Perso::Dessine_perso(Color col){
-
-
-    fillCircle(c.x,c.y,rayon,col);
-
-}
-
-Perso::Perso(int x,int y,int r, int v){
-    c.x=x;
-    c.y=y;
-    rayon=r;
-    vitesse=v;
-
-
+    int dist=e.r_balle+p.rayon;
+    return p.c.euler_dist(e.pos_balle)<=dist;
 
 
 }
 
-void Perso::bouge(int d, const Bords& b ){
-    Dessine_perso(WHITE);
-    point dir_new={dir[d].x*vitesse,dir[d].y*vitesse};
-    point p=c+dir_new;
 
-    bool cbsup= p.y-rayon >0;
-    bool cbinf=p.y+rayon<b.yb;
-    bool cbdroit=p.x+rayon<b.xb;
-    bool cbgauche=p.x-rayon>0;
-    if (cbsup & cbinf & cbdroit & cbgauche){
 
-       c=p;
-    }
 
-    Dessine_perso(RED);
-}
+
+
+
+
+
+
+
 
 
 
 void jeu(int w, int h){
+
     Bords b(w,h);
     Perso p(50,50,10,6);
+    Enm_imb e(b,5);
+    e.Dessine_enn(BLACK);
+    double dir=e.init_balle();
     b.Dessine_bords();
     p.Dessine_perso(BLACK);
     click();
     cout<<"oui"<<endl;
 
+    bool t=true;
+
     do {
+       if (e.pos_balle.y==0) dir=e.init_balle();
+         e.dep_balle(dir);
+       if (collision(e,p)) t=false;
+
         switch(keyboard()) {
+
         case KEY_RIGHT:
                  p.bouge(droite,b); break;
         case KEY_DOWN:
@@ -108,9 +68,14 @@ void jeu(int w, int h){
         case KEY_UP:
             p.bouge(up,b); break;
         }
-        milliSleep(10);
+        milliSleep(5);
 
-        }while(true);
+
+
+
+        }while(t);
+
+
 
 
 
@@ -121,6 +86,7 @@ void jeu(int w, int h){
 
 
 int main(){
+    srand((unsigned)time(NULL));
 
     openComplexWindow(300,300);
     //fillCircle(10,10,20,RED);
