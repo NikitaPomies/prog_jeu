@@ -1,39 +1,26 @@
-#include <Imagine/Images.h>
 
-using namespace Imagine;
-using namespace std;
-
-const int droite = 0;
-const int bottom = 1;
-const int gauche = 2;
-const int up = 3;
+#include "utils.h"
 
 
-struct point {
-    int x;
-    int y;
-    point operator+(point b) const;
 
-};
-
-point point::operator+(point b) const {
-    point p = {x+b.x,y+b.y};
-    return p;
+void fillTriangle(point P, int size, Color COL){
+    int x[]={P.x+size,P.x-size,P.x};
+    int y[]={P.y-size,P.y-size,P.y+size};
+    fillPoly(x,y,3,COL);
 }
+
+void fillDiamond(point P, int size, Color COL){
+    int x[]={P.x-size/2,P.x,P.x+size/2,P.x};
+    int y[]={P.y,P.y-size,P.y,P.y+size};
+    fillPoly(x,y,4,COL);
+}
+
 const point dir[4] = {{1,0},{0,1},{-1,0},{0,-1}};
 
 
 
 
-int keyboard() {
-    Event e;
-    do {
-        getEvent(0,e);
-        if (e.type==EVT_KEY_ON)
-            return e.key;
-    } while (e.type!=EVT_NONE);
-    return 0;
-}
+
 
 class Perso{
 public:
