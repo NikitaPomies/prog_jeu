@@ -1,7 +1,8 @@
 #include <Imagine/Images.h>
 #pragma once
-#include <cmath>
+#include <math.h>
 #include <ctime>
+#include <time.h>
 using namespace Imagine;
 using namespace std;
 
@@ -35,3 +36,4 @@ public:
         };
 
 int keyboard();
+float random_perso();

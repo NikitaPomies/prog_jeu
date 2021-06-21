@@ -40,6 +40,8 @@ bool collision(const Enm_imb& e,const Perso& p){
 
 void jeu(int w, int h){
 
+
+
     Bords b(w,h);
     Perso p(50,50,10,6);
     Enm_imb e(b,5);
@@ -85,9 +87,10 @@ void jeu(int w, int h){
 
 
 
-int main(){
-    srand((unsigned)time(NULL));
 
+int main(){
+
+    srand( (unsigned)time( NULL ) );
     openComplexWindow(300,300);
     //fillCircle(10,10,20,RED);
     jeu(200,200);
@@ -95,7 +98,6 @@ int main(){
 
 
     endGraphics();
-
 
 
     return 0;

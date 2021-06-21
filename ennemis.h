@@ -14,6 +14,6 @@ public:
     void mvmt_balle();
     void Dessine_enn(Color col);
     double  init_balle();
-    void dep_balle( double d);
+    void dep_balle( float d);
 
 };

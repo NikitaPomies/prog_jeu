@@ -35,3 +35,14 @@ int keyboard() {
     return 0;
 }
 
+float random_perso(){
+
+
+
+
+
+
+
+        return (float) rand()/RAND_MAX;
+}
+
