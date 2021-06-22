@@ -3,10 +3,7 @@
 
 
 void Perso::Dessine_perso(Color col){
-
-
     fillCircle(c.x,c.y,rayon,col);
-
 }
 
 Perso::Perso(int x,int y,int r, int v){
@@ -14,11 +11,8 @@ Perso::Perso(int x,int y,int r, int v){
     c.y=y;
     rayon=r;
     vitesse=v;
-
-
-
-
 }
+
 
 void Perso::bouge(int d, const Bords& b ){
     Dessine_perso(WHITE);
@@ -30,7 +24,6 @@ void Perso::bouge(int d, const Bords& b ){
     bool cbdroit=p.x+rayon<b.xb;
     bool cbgauche=p.x-rayon>0;
     if (cbsup & cbinf & cbdroit & cbgauche){
-
        c=p;
     }
 

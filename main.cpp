@@ -18,21 +18,9 @@ void fillDiamond(point P, int size, Color COL){
 }
 
 bool collision(const Enm_imb& e,const Perso& p){
-
-    int dist=e.r_balle+p.rayon;
-    return p.c.euler_dist(e.pos_balle)<=dist;
-
-
+    int dist=e.rayon_balle+p.rayon;
+    return p.c.euler_dist(e.B.position)<=dist;
 }
-
-
-
-
-
-
-
-
-
 
 
 
@@ -40,47 +28,46 @@ bool collision(const Enm_imb& e,const Perso& p){
 
 void jeu(int w, int h){
 
-
-
     Bords b(w,h);
     Perso p(50,50,10,6);
     Enm_imb e(b,5);
     e.Dessine_enn(BLACK);
-    double dir=e.init_balle();
+    e.init_balle(p);
     b.Dessine_bords();
     p.Dessine_perso(BLACK);
     click();
+
     cout<<"oui"<<endl;
 
     bool t=true;
 
     do {
-       if (e.pos_balle.y==0) dir=e.init_balle();
-         e.dep_balle(dir);
-       if (collision(e,p)) t=false;
+
+       if (e.B.position.y==0 || e.B.position.y==h || e.B.position.x==0 || e.B.position.x==w )
+          e.init_balle(p);
+       e.tirer_balle();
+       if (collision(e,p))
+           t=false;
 
         switch(keyboard()) {
 
         case KEY_RIGHT:
-                 p.bouge(droite,b); break;
+            p.bouge(droite,b);
+            break;
         case KEY_DOWN:
-            p.bouge(bottom,b); break;
+            p.bouge(bottom,b);
+            break;
         case KEY_LEFT:
-           p.bouge(gauche,b); break;
+            p.bouge(gauche,b);
+            break;
         case KEY_UP:
-            p.bouge(up,b); break;
+            p.bouge(up,b);
+            break;
         }
+
         milliSleep(5);
 
-
-
-
         }while(t);
-
-
-
-
-
 
 }
 
@@ -92,13 +79,9 @@ int main(){
 
     srand( (unsigned)time( NULL ) );
     openComplexWindow(300,300);
-    //fillCircle(10,10,20,RED);
-    jeu(200,200);
-
-
+    jeu(500,500);
 
     endGraphics();
-
 
     return 0;
 
