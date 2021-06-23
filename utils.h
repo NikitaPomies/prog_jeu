@@ -12,12 +12,13 @@ const int gauche = 2;
 const int up = 3;
 
 
-
-
 struct point {
+
     int x;
     int y;
+
     point operator+(point b) const;
+    point operator*(int lambda) const;
     bool operator==(point b) const;
     int euler_dist(point b) const;
 
@@ -30,10 +31,9 @@ public:
     int xb,yb;
     void Dessine_bords();
     Bords(int xb,int yb);
-
-
-
         };
+
+
 
 int keyboard();
 float random_perso();

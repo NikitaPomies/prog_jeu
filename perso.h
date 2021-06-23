@@ -1,5 +1,6 @@
-#include "utils.h"
 #pragma once
+#include "utils.h"
+
 
 
 class Perso{
