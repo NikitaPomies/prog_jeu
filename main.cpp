@@ -18,7 +18,7 @@ void fillDiamond(point P, int size, Color COL){
 }
 
 bool collision(const Enm_imb& e,const Perso& p){
-    int dist=e.rayon_balle+p.rayon;
+    int dist=e.B.rayon+p.rayon;
     return p.c.euler_dist(e.B.position)<=dist;
 }
 
@@ -30,7 +30,7 @@ void jeu(int w, int h){
 
     Bords b(w,h);
     Perso p(50,50,10,6);
-    Enm_imb e(b,5);
+    Enm_imb e(b,5,3,2,1);
     e.Dessine_enn(BLACK);
     e.init_balle(p);
     b.Dessine_bords();
@@ -78,7 +78,7 @@ void jeu(int w, int h){
 int main(){
 
     srand( (unsigned)time( NULL ) );
-    openComplexWindow(300,300);
+    openComplexWindow(500,500);
     jeu(500,500);
 
     endGraphics();

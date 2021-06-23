@@ -4,21 +4,23 @@
 // Classe Balle
 
 
-Balle::Balle(double cos, double sin, int ray, Color col, point tireur){
+// Modifier le coefficient 3 de l'initialisation pour l'adapter à la taille du tireur
+// Permet de ne pas effacer le cercle du tireur
+
+Balle::Balle(double cos, double sin, int ray, int vit, Color col, point tireur){
 
     rayon = ray;
+    vitesse = vit;
     couleur = col;
-    position  = tireur;
+    cosinus = cos;
+    sinus = sin;
 
-    if (-sin>=0)
-        direction = acos(cos);
-    else if (-sin<=0 && cos>=0)
-        direction = asin(sin);
-    else
-        direction = acos(cos) + M_PI;
+    vrai_x = tireur.x + 3*rayon*cos;
+    vrai_y = tireur.y + 3*rayon*sin;
 
-    //point ini = {int(4*rayon*cos),int(4*rayon*(-sin))};
-    //position = tireur + ini;
+    position.x = int(vrai_x);
+    position.y = int(vrai_y);
+
 }
 
 Balle::Balle(){
@@ -36,36 +38,38 @@ void Balle::efface(){
 
 void Balle::deplace(){
     efface();
-    position.x+=2*cos(direction);
-    position.y-=2*sin(direction);
+    position.x=int(vrai_x);
+    position.y=int(vrai_y);
+    vrai_x += vitesse*cosinus;
+    vrai_y += vitesse*sinus;
     dessine();
 }
 
 
 // Classe ennemi
 
-Enm_imb::Enm_imb(Bords &b, int r){
+Enm_imb::Enm_imb(Bords &b, int r, int rb, int v, int vb){
     pos_ennemi= {b.xb/2,b.yb/2};
-    rayon_balle = r;
-    B.rayon = r;
+    rayon = r;
+    rayon_balle = rb;
+    vitesse = v;
+    vitesse_balle = vb;
 }
 
 void Enm_imb::Dessine_enn(Color col){
     fillCircle(pos_ennemi.x,pos_ennemi.y,10,col);
 }
 
-
-
 void Enm_imb::init_balle(Perso P){
 
-    float delta_x = P.c.x - pos_ennemi.x;
-    float delta_y = P.c.x - pos_ennemi.y;
-    float dist = P.c.euler_dist(pos_ennemi);
+    double delta_x = P.c.x - pos_ennemi.x;
+    double delta_y = P.c.y - pos_ennemi.y;
+    double dist = P.c.euler_dist(pos_ennemi);
 
-    float cos = delta_x/dist;
-    float sin = delta_y/dist;
+    double cos = delta_x/dist;
+    double sin = delta_y/dist;
 
-    B = Balle(cos,sin,rayon_balle,couleur_balle,pos_ennemi);
+    B = Balle(cos,sin,rayon_balle,vitesse_balle,couleur_balle,pos_ennemi);
 
 }
 
