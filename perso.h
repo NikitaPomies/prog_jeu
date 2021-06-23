@@ -4,7 +4,9 @@
 
 
 class Perso{
+
 public:
+
     int  vitesse;
     point c;
     int rayon;
