@@ -47,6 +47,26 @@ int keyboard() {
 }
 
 
+// Celle là qui ne fonctionne pas
+// On ne rentre jamais dans le if que j'ai commente
+// Je ne sais pas si ça vient de ma souris
+
+int mouse(int &x, int &y){
+    //cout << "souris_0" << endl;
+    Event e;
+    do {
+        getEvent(0,e);
+        if (e.type==2){ // C'est dans ce if qu'on ne rentre pas
+            cout << "souris_1" << endl;
+            x = e.pix[0];
+            y = e.pix[1];
+            return e.button;
+        }
+    }while (e.type!=EVT_NONE);
+    return 0;
+}
+
+
 
 float random_perso(){
 

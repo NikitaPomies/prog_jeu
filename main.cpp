@@ -18,8 +18,8 @@ void fillDiamond(point P, int size, Color COL){
 }
 
 bool collision(const Enm_imb& e,const Perso& p){
-    int dist=e.B.rayon+p.rayon;
-    return p.c.euler_dist(e.B.position)<=dist;
+    int dist=e.balle.rayon+p.rayon;
+    return p.position.euler_dist(e.balle.position)<=dist;
 }
 
 
@@ -29,12 +29,17 @@ bool collision(const Enm_imb& e,const Perso& p){
 void jeu(int w, int h){
 
     Bords b(w,h);
-    Perso p(50,50,10,6);
-    Enm_imb e(b,5,3,2,1);
-    e.Dessine_enn(BLACK);
-    e.init_balle(p);
+    point posi_ini_perso = {50,50};
+    Perso P(posi_ini_perso,10,6,2,3);
+    Enm_imb e(b,5,3,2,3,GREEN);
+
     b.Dessine_bords();
-    p.Dessine_perso(BLACK);
+
+    e.Dessine_enn();
+    e.init_balle(P.position);
+
+    P.Dessine_perso(BLACK);
+
     click();
 
     cout<<"oui"<<endl;
@@ -43,27 +48,38 @@ void jeu(int w, int h){
 
     do {
 
-       if (e.B.position.y==0 || e.B.position.y==h || e.B.position.x==0 || e.B.position.x==w )
-          e.init_balle(p);
+       if (e.balle.position.y==0 || e.balle.position.y==h || e.balle.position.x==0 || e.balle.position.x==w )
+          e.init_balle(P.position);
+
        e.tirer_balle();
-       if (collision(e,p))
+
+       if (collision(e,P))
            t=false;
 
         switch(keyboard()) {
 
         case KEY_RIGHT:
-            p.bouge(droite,b);
+            P.bouge(droite,b);
             break;
         case KEY_DOWN:
-            p.bouge(bottom,b);
+            P.bouge(bottom,b);
             break;
         case KEY_LEFT:
-            p.bouge(gauche,b);
+            P.bouge(gauche,b);
             break;
         case KEY_UP:
-            p.bouge(up,b);
+            P.bouge(up,b);
             break;
         }
+
+        int x,y;
+        if (mouse(x,y)==1){
+            cout << "souris" << endl;
+            point objectif_perso = {x,y};
+            P.initBalle(objectif_perso);
+        }
+
+        P.tirer_balle();
 
         milliSleep(5);
 
