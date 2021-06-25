@@ -3,11 +3,13 @@
 
 // Classe ennemi
 
-Enm_imb::Enm_imb(Bords &b, int r, int rb, int v, int vb, Color col){
+Enm_imb::Enm_imb(int id, Bords &b, int r, int rb, int vit, int vb, int sante, Color col){
+    identifiant = id;
+    vie = sante;
     pos_ennemi= {b.xb/2,b.yb/2};
     rayon = r;
     rayon_balle = rb;
-    vitesse = v;
+    vitesse = vit;
     vitesse_balle = vb;
     couleur = col;
 }
@@ -32,6 +34,10 @@ void Enm_imb::init_balle(point P){
 
 void Enm_imb::tirer_balle(){
     balle.deplace();
+}
+
+bool Enm_imb::balle_sortie(int w, int h){
+    return (balle.position.y<=0 || balle.position.y>=h || balle.position.x<=0 || balle.position.x>=w);
 }
 
 

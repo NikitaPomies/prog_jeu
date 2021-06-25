@@ -36,40 +36,45 @@ Bords::Bords(int x,int y){
 
 // Fonctions diverses
 
-int keyboard() {
+
+int evenement(int &x, int &y){
     Event e;
     do {
         getEvent(0,e);
         if (e.type==EVT_KEY_ON)
             return e.key;
+        else if (e.type==EVT_BUT_ON){
+            cout << "souris_1" << endl;
+            x = e.pix[0];
+            y = e.pix[1];
+            return e.button;
+       }
     } while (e.type!=EVT_NONE);
     return 0;
 }
 
 
-// Celle là qui ne fonctionne pas
-// On ne rentre jamais dans le if que j'ai commente
-// Je ne sais pas si ça vient de ma souris
-
-int mouse(int &x, int &y){
-    //cout << "souris_0" << endl;
-    Event e;
-    do {
-        getEvent(0,e);
-        if (e.type==2){ // C'est dans ce if qu'on ne rentre pas
-            cout << "souris_1" << endl;
-            x = e.pix[0];
-            y = e.pix[1];
-            return e.button;
-        }
-    }while (e.type!=EVT_NONE);
-    return 0;
-}
-
-
-
 float random_perso(){
-
         return (float) rand()/RAND_MAX;
 }
+
+
+
+void fillTriangle(point P, int size, Color COL){
+    int x[]={P.x+size,P.x-size,P.x};
+    int y[]={P.y-size,P.y-size,P.y+size};
+    fillPoly(x,y,3,COL);
+}
+
+void fillDiamond(point P, int size, Color COL){
+    int x[]={P.x-size/2,P.x,P.x+size/2,P.x};
+    int y[]={P.y,P.y-size,P.y,P.y+size};
+    fillPoly(x,y,4,COL);
+}
+
+bool collision(point A, int rayonA, point B, int rayonB){
+    int dist=rayonA + rayonB;
+    return A.euler_dist(B)<=dist;
+}
+
 

@@ -1,89 +1,107 @@
-
 #include "utils.h"
 #include "perso.h"
 #include "ennemis.h"
 
 
+// Constantes globales
 
-void fillTriangle(point P, int size, Color COL){
-    int x[]={P.x+size,P.x-size,P.x};
-    int y[]={P.y-size,P.y-size,P.y+size};
-    fillPoly(x,y,3,COL);
-}
-
-void fillDiamond(point P, int size, Color COL){
-    int x[]={P.x-size/2,P.x,P.x+size/2,P.x};
-    int y[]={P.y,P.y-size,P.y,P.y+size};
-    fillPoly(x,y,4,COL);
-}
-
-bool collision(const Enm_imb& e,const Perso& p){
-    int dist=e.balle.rayon+p.rayon;
-    return p.position.euler_dist(e.balle.position)<=dist;
-}
-
+const double temps_niveau = 120.0; // Donné en secondes
+const double temps_ennemis = 15.0; // Donné en seconces
 
 
 
 
 void jeu(int w, int h){
 
-    Bords b(w,h);
-    point posi_ini_perso = {50,50};
-    Perso P(posi_ini_perso,10,6,2,3);
-    Enm_imb e(b,5,3,2,3,GREEN);
+    int niveau = 0;
 
+    Bords b(w,h);
     b.Dessine_bords();
 
-    e.Dessine_enn();
-    e.init_balle(P.position);
-
+    point posi_ini_perso = {200,50};
+    Perso P(posi_ini_perso,10,6,2,3);
     P.Dessine_perso(BLACK);
+
+
+    //nmbr_ennemis +=1;
+
 
     click();
 
-    cout<<"oui"<<endl;
+    time_t temps_ini_niv = time(NULL);
 
     bool t=true;
 
+
     do {
 
-       if (e.balle.position.y==0 || e.balle.position.y==h || e.balle.position.x==0 || e.balle.position.x==w )
-          e.init_balle(P.position);
+        niveau+=1;
+        int nmbr_ennemis = 0;
+        std::vector<Enm_imb> Liste_ennemis;
+        time_t nouvel_ennemi = time(NULL);
 
-       e.tirer_balle();
+        while(difftime(time(NULL),temps_ini_niv)<= temps_niveau){
 
-       if (collision(e,P))
-           t=false;
+            if (nmbr_ennemis==0 || difftime(time(NULL),nouvel_ennemi) >= temps_ennemis){
 
-        switch(keyboard()) {
+                if(difftime(time(NULL),nouvel_ennemi) >= temps_ennemis)
+                    nouvel_ennemi = time(NULL);
 
-        case KEY_RIGHT:
-            P.bouge(droite,b);
-            break;
-        case KEY_DOWN:
-            P.bouge(bottom,b);
-            break;
-        case KEY_LEFT:
-            P.bouge(gauche,b);
-            break;
-        case KEY_UP:
-            P.bouge(up,b);
-            break;
+                Enm_imb e(nmbr_ennemis,b,5,3,2,3,10,GREEN);
+                e.Dessine_enn();
+                e.init_balle(P.position);
+                Liste_ennemis.push_back(e);
+            }
+
+            for(int i=0; i<int(Liste_ennemis.size());i++){
+
+                if(Liste_ennemis[i].balle_sortie(w,h))
+                    Liste_ennemis[i].init_balle(P.position);
+
+                if (collision(Liste_ennemis[i].balle.position,Liste_ennemis[i].rayon_balle,P.position,P.rayon))
+                    t=false;
+
+                Liste_ennemis[i].tirer_balle();
+            }
+
+
+
+
+
+
+            int x,y;
+
+            switch(evenement(x,y)) {
+
+            case KEY_RIGHT:
+                P.bouge(droite,b);
+                break;
+            case KEY_DOWN:
+                P.bouge(bottom,b);
+                break;
+            case KEY_LEFT:
+                P.bouge(gauche,b);
+                break;
+            case KEY_UP:
+                P.bouge(up,b);
+                break;
+            case 1:
+                P.balle.efface();
+                point objectif_perso = {x,y};
+                P.initBalle(objectif_perso);
+                break;
+
+            }
+
+
+            P.tirer_balle();
+
+            milliSleep(5);
+
         }
 
-        int x,y;
-        if (mouse(x,y)==1){
-            cout << "souris" << endl;
-            point objectif_perso = {x,y};
-            P.initBalle(objectif_perso);
-        }
+    }while(t);
 
-        P.tirer_balle();
-
-        milliSleep(5);
-
-        }while(t);
 
 }
 
@@ -94,8 +112,8 @@ void jeu(int w, int h){
 int main(){
 
     srand( (unsigned)time( NULL ) );
-    openComplexWindow(500,500);
-    jeu(500,500);
+    openComplexWindow(COTE_TERRAIN,COTE_TERRAIN);
+    jeu(COTE_TERRAIN,COTE_TERRAIN);
 
     endGraphics();
 

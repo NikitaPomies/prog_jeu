@@ -11,10 +11,12 @@ public:
     point position;
     int  vitesse;
     int rayon;
+    int vie;
 
     Balle balle;
     int rayon_balle;
     int vitesse_balle;
+    int dommages;
     Color couleur_balle = BLACK;
 
 
