@@ -6,7 +6,7 @@
 // Constantes globales
 
 const double temps_niveau = 120.0; // Donné en secondes
-const double temps_ennemis = 15.0; // Donné en seconces
+const double temps_ennemis = 5.0; // Donné en seconces
 
 
 
@@ -33,33 +33,42 @@ void jeu(int w, int h){
     bool t=true;
 
 
-    do {
+
 
         niveau+=1;
         int nmbr_ennemis = 0;
         std::vector<Enm_imb> Liste_ennemis;
         time_t nouvel_ennemi = time(NULL);
 
-        while(difftime(time(NULL),temps_ini_niv)<= temps_niveau){
+        while(difftime(time(NULL),temps_ini_niv)<= temps_niveau && t ){
 
             if (nmbr_ennemis==0 || difftime(time(NULL),nouvel_ennemi) >= temps_ennemis){
 
-                if(difftime(time(NULL),nouvel_ennemi) >= temps_ennemis)
+                if(difftime(time(NULL),nouvel_ennemi) >= temps_ennemis) {
                     nouvel_ennemi = time(NULL);
 
-                Enm_imb e(nmbr_ennemis,b,5,3,2,3,10,GREEN);
-                e.Dessine_enn();
-                e.init_balle(P.position);
-                Liste_ennemis.push_back(e);
+                    Enm_imb e(nmbr_ennemis,b,5,3,2,3,10,GREEN);
+                    e.Dessine_enn();
+                    e.init_balle(P.position);
+                    e.tirer_balle();
+                    Liste_ennemis.push_back(e);
+                }
+
             }
+
+
 
             for(int i=0; i<int(Liste_ennemis.size());i++){
 
-                if(Liste_ennemis[i].balle_sortie(w,h))
+                if(Liste_ennemis[i].balle_sortie(w,h)) {
+
                     Liste_ennemis[i].init_balle(P.position);
 
-                if (collision(Liste_ennemis[i].balle.position,Liste_ennemis[i].rayon_balle,P.position,P.rayon))
-                    t=false;
+                }
+
+                if (collision(Liste_ennemis[i].balle.position,Liste_ennemis[i].rayon_balle,P.position,P.rayon)){
+
+                    t=false;}
 
                 Liste_ennemis[i].tirer_balle();
             }
@@ -100,8 +109,6 @@ void jeu(int w, int h){
 
         }
 
-    }while(t);
-
 
 }
 
@@ -116,6 +123,12 @@ int main(){
     jeu(COTE_TERRAIN,COTE_TERRAIN);
 
     endGraphics();
+//    time_t init= time(NULL);
+//    while(difftime(time(NULL),init)<=temps_ennemis){
+//        if (2==2) cout<<"test"<<endl;
+//        cout<<"hors_if"<<endl;
+
+//    }
 
     return 0;
 
