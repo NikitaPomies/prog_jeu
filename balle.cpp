@@ -48,3 +48,13 @@ void Balle::deplace(){
     }
 }
 
+
+bool Balle::balle_sortie(int w, int h, int menu){
+    return (position.y<=menu + rayon || position.y>=h + menu || position.x<=0 || position.x>=w);
+}
+
+
+void Balle::meurt(){
+    existe = false;
+    efface();
+}

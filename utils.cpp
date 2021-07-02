@@ -25,17 +25,19 @@ int point::euler_dist(point b) const{
 // Classe bords
 
 void Bords::Dessine_bords(){
-    drawRect(0,0,xb,yb,BLACK);
+    drawRect(0,menu,xb,yb,BLACK);
 }
 
-Bords::Bords(int x,int y){
+Bords::Bords(int x, int y, int taille_menu){
     xb=x;
     yb=y;
+    menu=taille_menu;
 }
+
+
 
 
 // Fonctions diverses
-
 
 int evenement(int &x, int &y){
     Event e;

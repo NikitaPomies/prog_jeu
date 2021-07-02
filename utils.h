@@ -36,9 +36,10 @@ class Bords{
 
 public:
 
+    int menu;
     int xb,yb;
     void Dessine_bords();
-    Bords(int xb,int yb);
+    Bords(int xb,int yb,int taille_menu);
 
 };
 

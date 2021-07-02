@@ -15,9 +15,11 @@ public :
 
     Balle();
     Balle(double cos, double sin, int rayon, int vit, Color col, point tireur, int rayon_tireur);
+    bool balle_sortie(int w , int h, int menu);
     void deplace();
     void dessine();
     void efface();
+    void meurt();
 
 };
 
