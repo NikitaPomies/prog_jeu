@@ -1,4 +1,4 @@
-#include "utils.h"
+ #include "utils.h"
 #include "perso.h"
 #include "ennemis.h"
 
@@ -112,15 +112,22 @@ void jeu(int taille, int menu){
 
                 // Un ennemi perd des vies ou meurt s'il est touche par une balle du joueur
                 if(P.balle.existe && t && collision(P.balle.position,P.rayon_balle,Liste_ennemis[i].pos_ennemi,Liste_ennemis[i].rayon)){
+                    P.balle.meurt();
                     if(P.puissance_balle>=Liste_ennemis[i].vie){
+
+
                         Liste_ennemis[i].efface_enn();
+                        Liste_ennemis[i].efface_barre_vie();
+
+
                         nmbr_ennemis-=1;
                         Liste_ennemis.erase(Liste_ennemis.begin()+i);
                     }
-                    Liste_ennemis[i].dessine_vie(P.puissance_balle);
-                    Liste_ennemis[i].vie-=P.puissance_balle;
-                    P.balle.meurt();
-                    Liste_ennemis[i].Dessine_enn();
+                    else {
+                        Liste_ennemis[i].dessine_vie(P.puissance_balle);
+                        Liste_ennemis[i].vie-=P.puissance_balle;
+                          }
+
                 }
 
                 // On deplace les balles des ennemis

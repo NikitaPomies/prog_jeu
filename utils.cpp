@@ -46,7 +46,7 @@ int evenement(int &x, int &y){
         if (e.type==EVT_KEY_ON)
             return e.key;
         else if (e.type==EVT_BUT_ON){
-            cout << "souris_1" << endl;
+
             x = e.pix[0];
             y = e.pix[1];
             return e.button;

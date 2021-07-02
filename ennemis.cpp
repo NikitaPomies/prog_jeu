@@ -54,6 +54,10 @@ void Enm_imb::dessine_vie(int degats){
     cout << enleve << endl;
     fillRect(pos_ennemi.x-rayon+vie*2*rayon/sante_initiale,pos_ennemi.y+rayon+ecart_vie,-enleve,largeur_vie,RED);
 }
+void Enm_imb::efface_barre_vie(){
+
+    fillRect(pos_ennemi.x-rayon,pos_ennemi.y+rayon+ecart_vie,2*rayon,largeur_vie,WHITE);
+}
 
 
 

@@ -29,6 +29,7 @@ public:
     void init_balle(point P);
     void tirer_balle();
     void efface_enn();
+    void efface_barre_vie();
     void init_vie();
     void dessine_vie(int degats);
 
