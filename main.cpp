@@ -46,7 +46,7 @@ void jeu(int taille, int menu){
 
     bool t=true;
 
-    do {
+
 
         // On rentre dans un niveau
         // Il n'y a, au premier passage dans la boucle, aucun ennemi
@@ -60,7 +60,7 @@ void jeu(int taille, int menu){
         int attaque_ennemi_dist = 10;
 
         // On reste dans un meme niveau tant qu'un certain temps n'est pas ecoule
-        while(difftime(time(NULL),temps_ini_niv)<= temps_niveau){
+        while(difftime(time(NULL),temps_ini_niv)<= temps_niveau && t ){
 
             // Creation d'un nouvel ennemi (il doit toujours y en avoir au moins un)
             if (nmbr_ennemis==0 || difftime(time(NULL),nouvel_ennemi) >= temps_ennemis){
@@ -100,8 +100,10 @@ void jeu(int taille, int menu){
 
                 // Le joueur meurt ou perd des vies s'il est touche par la balle d'un des ennemis
                 if (Liste_ennemis[i].balle.existe && collision(Liste_ennemis[i].balle.position,Liste_ennemis[i].rayon_balle,P.position,P.rayon)){
-                    if(Liste_ennemis[i].dommages>=P.vie)
+                    if(Liste_ennemis[i].dommages>=P.vie){
+                        cout<<"mort"<<endl;
                         t=false;
+                    }
                     P.dessine_vie(Liste_ennemis[i].dommages);
                     P.vie-=Liste_ennemis[i].dommages;
                     cout << P.vie << endl;
@@ -169,7 +171,7 @@ void jeu(int taille, int menu){
 
         }
 
-    }while(t);
+
 
 
 }
