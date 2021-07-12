@@ -43,8 +43,9 @@ int evenement(int &x, int &y){
     Event e;
     do {
         getEvent(0,e);
-        if (e.type==EVT_KEY_ON)
+        if (e.type==EVT_KEY_ON){
             return e.key;
+        }
         else if (e.type==EVT_BUT_ON){
 
             x = e.pix[0];

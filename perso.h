@@ -4,6 +4,7 @@
 
 
 const int barre_vie = COTE_TERRAIN/5;
+const double temps_bouclier = 5.0;
 
 class Perso{
 
@@ -15,6 +16,7 @@ public:
     int sante_initiale;
     int vie;
     int puissance_balle;
+    bool bouclier;
 
     Balle balle;
     int rayon_balle;
@@ -29,6 +31,7 @@ public:
     void bouge(int d, const Bords& b);
     void initBalle(point objectif);
     void tirer_balle();
-    void init_vie();
-    void dessine_vie(int degats);
+    void init_vie(int menu);
+    void dessine_vie_perdue(int degats, int menu);
+    void dessine_vie_gagnee(int gain, int menu);
 };

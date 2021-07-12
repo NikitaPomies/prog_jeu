@@ -46,12 +46,11 @@ void Enm_imb::tirer_balle(){
 
 
 void Enm_imb::init_vie(){
-    fillRect(pos_ennemi.x-rayon,pos_ennemi.y+rayon+ecart_vie,2*rayon,largeur_vie,GREEN);
+    fillRect(pos_ennemi.x-rayon,pos_ennemi.y+rayon+ecart_vie,2*rayon,largeur_vie,PINK);
 }
 
 void Enm_imb::dessine_vie(int degats){
     int enleve = degats*2*rayon/sante_initiale;
-    cout << enleve << endl;
     fillRect(pos_ennemi.x-rayon+vie*2*rayon/sante_initiale,pos_ennemi.y+rayon+ecart_vie,-enleve,largeur_vie,RED);
 }
 void Enm_imb::efface_barre_vie(){
@@ -63,15 +62,20 @@ void Enm_imb::efface_barre_vie(){
 
 // Fonctions diverses
 
-void position_aleatoire(int W, int H, int espace, int menu, point &placement){
+void position_aleatoire(int W, int H, int espace, int menu, int rayon, point &placement){
 
     int x = rand()%(2*espace) - espace;
     if(x<0)
-        x+=W;
+        x+=W-rayon;
+    else
+        x+=rayon;
+
 
     int y = rand ()%(2*espace) - espace + menu;
     if(y<menu)
-        y+=H;
+        y+=H-rayon;
+    else
+        y+=rayon;
 
     placement.x=x;
     placement.y=y;

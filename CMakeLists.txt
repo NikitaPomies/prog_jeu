@@ -9,5 +9,6 @@ add_executable(Jeux
                utils.cpp utils.h
                balle.h balle.cpp
                perso.cpp perso.h
-               ennemis.cpp ennemis.h)
+               ennemis.cpp ennemis.h
+               bonus.cpp bonus.h)
 ImagineUseModules(Jeux Images)

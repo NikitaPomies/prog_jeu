@@ -38,4 +38,4 @@ public:
 
 // Fonctions diverses
 
-void position_aleatoire(int W, int H, int espace, int menu, point &placement);
+void position_aleatoire(int W, int H, int espace, int menu, int rayon, point &placement);

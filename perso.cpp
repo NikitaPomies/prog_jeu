@@ -5,7 +5,13 @@
 // Classe perso
 
 void Perso::Dessine_perso(Color col){
-    fillCircle(position.x,position.y,rayon,col);
+    if(bouclier && col != WHITE){
+        fillCircle(position.x,position.y,rayon,col);
+        fillCircle(position.x,position.y,6*rayon/7,YELLOW);
+        fillCircle(position.x,position.y,5*rayon/7,col);
+    }
+    else
+        fillCircle(position.x,position.y,rayon,col);
 }
 
 Perso::Perso(point ini, int r, int v, int rb, int vb, int sante, int dommages_balle){
@@ -19,6 +25,7 @@ Perso::Perso(point ini, int r, int v, int rb, int vb, int sante, int dommages_ba
     dommages=0;
     puissance_balle=dommages_balle;
     balle=Balle();
+    bouclier = false;
 }
 
 Perso::Perso(){
@@ -62,14 +69,34 @@ void Perso::tirer_balle(){
 }
 
 
-void Perso::init_vie(){
-    drawRect(20,20,barre_vie+1,21,BLACK);
-    fillRect(21,21,barre_vie,20,GREEN);
+void Perso::init_vie(int menu){
+    fillRect(21,menu/4+2+20,barre_vie,20,WHITE);
+    drawRect(20,menu/4,barre_vie+1,21,BLACK);
+    fillRect(21,menu/4+1,barre_vie,20,GREEN);
+    drawString(20,menu/4+2+40,"HP : 100/100",GREEN,8);
 }
 
-void Perso::dessine_vie(int degats){
+void Perso::dessine_vie_perdue(int degats,int menu){
     int enleve = degats*barre_vie/sante_initiale;
-    fillRect(21+vie*barre_vie/sante_initiale,21,-enleve,20,RED);
+    fillRect(21+vie*barre_vie/sante_initiale,menu/4+1,-enleve,20,RED);
+    string hp = to_string(vie-degats)+"/100";
+    fillRect(21,menu/4+2+20,barre_vie,20,WHITE);
+    drawString(20,menu/4+2+40,"HP : "+hp,GREEN,8);
+}
+
+void Perso::dessine_vie_gagnee(int gain, int menu){
+    if(gain+vie>=sante_initiale){
+        init_vie(menu);
+        vie=sante_initiale;
+    }
+    else {
+        vie+=gain;
+        int ajoute = gain*barre_vie/sante_initiale;
+        fillRect(21+vie*barre_vie/sante_initiale,menu/4+1,ajoute,20,GREEN);
+        string hp = to_string(vie+gain)+"/100";
+        fillRect(21,menu/4+2+20,barre_vie,20,WHITE);
+        drawString(20,menu/4+2+40,"HP : "+hp,GREEN,8);
+    }
 }
 
 
