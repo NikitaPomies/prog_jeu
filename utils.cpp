@@ -81,3 +81,22 @@ bool collision(point A, int rayonA, point B, int rayonB){
 }
 
 
+void position_aleatoire(int W, int H, int espace, int menu, int rayon, point &placement){
+
+    int x = rand()%(2*espace) - espace;
+    if(x<0)
+        x+=W-rayon;
+    else
+        x+=rayon;
+
+
+    int y = rand ()%(2*espace) - espace + menu;
+    if(y<menu)
+        y+=H-rayon;
+    else
+        y+=rayon;
+
+    placement.x=x;
+    placement.y=y;
+
+}

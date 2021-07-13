@@ -4,16 +4,10 @@
 #include "bonus.h"
 
 
+// Fonctions principales
 
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// PROBLEME :
-// Le premier ennemi ne s'affiche pas, meme dans cette version ou on a ajoute un fillCricle a la main
-// Lorsqu'on rentre pour la deuxieme fois dans la boucle while de la ligne 51, tout l'ecran devient bleu noir
-// Cela se voit bien au debuggage
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+///////////////////////////////////////////////////////////////////
 
 
 void init_affichage_niveau(int menu, int taille, int niveau){
@@ -31,14 +25,17 @@ void jeu(int taille, int menu){
     b.Dessine_bords();
     drawRect(0,0,taille,menu,BLACK,5);
 
-    // Creation du menu et bonus
-    int nombre_bonus[3] = {0,0,0};
-    bool absent = true;
-    point bonus;
-    int id_bonus;
-    time_t t_bouclier;
-    time_t temps_ini_bonus = time(NULL);
-    init_menu_bonus(0,menu,taille);
+    // Creation du menu et des trois types de bonus
+    // il n'y a en permanence qu'un seul bonus actif a l'ecran que le joeur peut aller recuperer
+
+    int nombre_bonus[3] = {0,0,0};  // compte le nombre de bonus que possède le joueur
+    bool absent = true;             // dit si un bonus est present sur le terrain de jeu
+    point bonus;                    // position du bonus
+    int id_bonus;                   // indice du bonus en cours, pour indiquer son type
+    time_t t_bouclier;              // instant d'initialisation du bouclier
+
+    time_t temps_ini_bonus = time(NULL);    // instant d'apparition du bonus en cours
+    init_menu_bonus(0,menu,taille);         // initialisation de l'affichage
     init_menu_bonus(1,menu,taille);
     init_menu_bonus(2,menu,taille);
     init_affichage_niveau(menu,taille,niveau+1);
@@ -116,6 +113,7 @@ void jeu(int taille, int menu){
                     Liste_ennemis[i].init_balle(P.position);
 
                 // Le joueur meurt ou perd des vies s'il est touche par la balle d'un des ennemis
+                // Il ne perd pas de vie si son bouclier est active
                 if (Liste_ennemis[i].balle.existe && collision(Liste_ennemis[i].balle.position,Liste_ennemis[i].rayon_balle,P.position,P.rayon)){
                     if(Liste_ennemis[i].dommages>=P.vie && !P.bouclier){
                         cout<<"mort"<<endl;
@@ -161,7 +159,7 @@ void jeu(int taille, int menu){
             if((difftime(time(NULL),temps_ini_bonus)>= temps_bonus || absent) && t){
                 temps_ini_bonus = time(NULL);
 
-                // Creation du nouveau bonus
+                // Creation du nouveau bonus, qui ne doit pas se superposer a un ennemi
                 bool occupe = false;
                 do{
                     occupe = false;
@@ -181,6 +179,7 @@ void jeu(int taille, int menu){
                 affichage_bonus(id_bonus,bonus);
             }
 
+            // Le joueur peut ramasser un bonus
             if(collision(P.position,P.rayon,bonus,taille_bonus)){
                 recup_bonus(id_bonus,nombre_bonus,menu,taille);
                 absent = true;
@@ -188,6 +187,7 @@ void jeu(int taille, int menu){
                 P.Dessine_perso(BLACK);
             }
 
+            // Desactivation du bouclier si le temps est depasse
             if(difftime(time(NULL),t_bouclier)>=temps_bouclier)
                 P.bouclier=false;
 
@@ -225,7 +225,7 @@ void jeu(int taille, int menu){
                 }
                 break;
             case 16777248:
-                if(nombre_bonus[2]>0){
+                if(nombre_bonus[2]>0 && nmbr_ennemis>0){
                     nmbr_ennemis-=1;
                     Liste_ennemis[0].efface_enn();
                     Liste_ennemis[0].efface_barre_vie();
@@ -234,6 +234,7 @@ void jeu(int taille, int menu){
                     utilise_bonus(2,nombre_bonus,menu,taille);
                 }
                 break;
+            // Tir du joueur
             case 1:
                 P.balle.efface();
                 point objectif_perso = {x,y};
@@ -249,15 +250,11 @@ void jeu(int taille, int menu){
             milliSleep(5);
 
         }
-
-
-
-
 }
 
 
 
-
+// Fonction qui lance le jeu
 
 int main(){
 

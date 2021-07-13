@@ -1,7 +1,7 @@
 #include  "bonus.h"
 
 
-
+// Pas de classe a ete cree a cause des trois differents types de bonus, que nous ne savions pas comment gere avec une classe
 
 void init_menu_bonus(int id, int menu, int taille){
     fillCircle(taille/2+3*id*rayon_bonus,menu/3+10,rayon_bonus,BONUS_GRISEE[id]);

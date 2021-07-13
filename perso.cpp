@@ -14,6 +14,7 @@ void Perso::Dessine_perso(Color col){
         fillCircle(position.x,position.y,rayon,col);
 }
 
+// On initialise tout
 Perso::Perso(point ini, int r, int v, int rb, int vb, int sante, int dommages_balle){
     position = ini;
     rayon=r;
@@ -28,6 +29,9 @@ Perso::Perso(point ini, int r, int v, int rb, int vb, int sante, int dommages_ba
     bouclier = false;
 }
 
+
+// Creation d'un constructeur par defaut
+// A pu etre utile pour ne pas avoir de pobleme d'initialisation dans certaines fonctions (constructeur par copie)
 Perso::Perso(){
 }
 
@@ -38,6 +42,7 @@ void Perso::bouge(int d, const Bords& b ){
     point dir_new={dir[d].x*vitesse,dir[d].y*vitesse};
     point p=position+dir_new;
 
+    // Le joueur ne peut pas sortir du terrain de jeu et ne peut pas rentrer dans le menu
     bool cbsup= p.y-rayon >b.menu;
     bool cbinf=p.y+rayon<b.yb+b.menu;
     bool cbdroit=p.x+rayon<b.xb;
@@ -51,6 +56,7 @@ void Perso::bouge(int d, const Bords& b ){
 }
 
 
+// On donne au constructeur d'une balle les cosinus et sinus de l'angle qui definit sa direction
 void Perso::initBalle(point objectif){
 
     double delta_x = objectif.x - position.x;
@@ -69,6 +75,9 @@ void Perso::tirer_balle(){
 }
 
 
+// Affichage menu
+
+// Initialisation
 void Perso::init_vie(int menu){
     fillRect(21,menu/4+2+20,barre_vie,20,WHITE);
     drawRect(20,menu/4,barre_vie+1,21,BLACK);
@@ -76,6 +85,8 @@ void Perso::init_vie(int menu){
     drawString(20,menu/4+2+40,"HP : 100/100",GREEN,8);
 }
 
+
+// Si le joeur prend une balle
 void Perso::dessine_vie_perdue(int degats,int menu){
     int enleve = degats*barre_vie/sante_initiale;
     fillRect(21+vie*barre_vie/sante_initiale,menu/4+1,-enleve,20,RED);
@@ -84,6 +95,8 @@ void Perso::dessine_vie_perdue(int degats,int menu){
     drawString(20,menu/4+2+40,"HP : "+hp,GREEN,8);
 }
 
+
+// Si le joueur utilise son bonus pour recuperer des vies
 void Perso::dessine_vie_gagnee(int gain, int menu){
     if(gain+vie>=sante_initiale){
         init_vie(menu);

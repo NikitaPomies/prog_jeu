@@ -2,14 +2,17 @@
 #include "utils.h"
 #include "balle.h"
 
+
+// Pour l'affichage
 const int ecart_vie = 5;
 const int largeur_vie = 5;
+
 
 class  Enm_imb{
 
 public:
 
-    int identifiant;
+    int identifiant; // inutile finalement
     point pos_ennemi;
     int rayon;
     int vitesse;
@@ -36,6 +39,3 @@ public:
 };
 
 
-// Fonctions diverses
-
-void position_aleatoire(int W, int H, int espace, int menu, int rayon, point &placement);

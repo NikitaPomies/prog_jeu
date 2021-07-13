@@ -4,9 +4,6 @@
 
 // Classe Balle
 
-// Modifier le coefficient 3 de l'initialisation pour l'adapter à la taille du tireur
-// Permet de ne pas effacer le cercle du tireur
-
 Balle::Balle(double cos, double sin, int ray, int vit, Color col, point tireur, int rayon_tireur){
 
     rayon = ray;
@@ -37,6 +34,11 @@ void Balle::efface(){
 }
 
 
+// On est contraint d'utiliser deux variables pour la coordonnee en x et en y
+// car les pixels ne prennent que des valeurs entieres, ce qui limite enormement les directions prises
+// par la balle au moment de son initialisation notamment (9 directions au total)
+// la vraie direction est sotckee dans vrai_x et vrai_y, et la direction suivie par la balle est stockee directement
+// dans position.x / .y, corrigee a chaque pas de temps
 void Balle::deplace(){
     if (existe){
         efface();

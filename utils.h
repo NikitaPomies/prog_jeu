@@ -57,3 +57,4 @@ float random_perso();
 void fillDiamond(point P, int size, Color COL);
 void fillTriangle(point P, int size, Color COL);
 bool collision(point A, int rayonA, point B, int rayonB);
+void position_aleatoire(int W, int H, int espace, int menu, int rayon, point &placement);

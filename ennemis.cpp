@@ -27,6 +27,7 @@ void Enm_imb::efface_enn(){
 }
 
 
+// On initialise une balle en donnant les cosinus et sinus de l'angle qui definit sa direction
 void Enm_imb::init_balle(point P){
 
     double delta_x = P.x - pos_ennemi.x;
@@ -45,6 +46,9 @@ void Enm_imb::tirer_balle(){
 }
 
 
+// Affichage
+
+
 void Enm_imb::init_vie(){
     fillRect(pos_ennemi.x-rayon,pos_ennemi.y+rayon+ecart_vie,2*rayon,largeur_vie,PINK);
 }
@@ -58,29 +62,6 @@ void Enm_imb::efface_barre_vie(){
     fillRect(pos_ennemi.x-rayon,pos_ennemi.y+rayon+ecart_vie,2*rayon,largeur_vie,WHITE);
 }
 
-
-
-// Fonctions diverses
-
-void position_aleatoire(int W, int H, int espace, int menu, int rayon, point &placement){
-
-    int x = rand()%(2*espace) - espace;
-    if(x<0)
-        x+=W-rayon;
-    else
-        x+=rayon;
-
-
-    int y = rand ()%(2*espace) - espace + menu;
-    if(y<menu)
-        y+=H-rayon;
-    else
-        y+=rayon;
-
-    placement.x=x;
-    placement.y=y;
-
-}
 
 
 
